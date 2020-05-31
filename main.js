@@ -1,6 +1,8 @@
 // Definindo a posição inicial da cobra. o Y é 150 para todas as partes inicias. Já o 
 // X deve ser -10px para a esquerda pois a cabeça começa no X = 150 
 
+let score = 0;
+
 let snake = [
   { x: 150, y: 150 }, 
   { x: 140, y: 150 }, 
@@ -33,10 +35,19 @@ function drawSnake() {
   snake.forEach(drawSnakePart);
 }
 
-function advanceSnake(){
+function advanceSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy};
   snake.unshift(head);
-  snake.pop();
+  const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
+  if(didEatFood) {
+    createFood();
+    score+=10;
+    document.getElementById('score').innerHTML = `Score: ${score}`
+  } 
+  else {
+    snake.pop();
+  }
+  
 }
 
 function clearCanvas() {
